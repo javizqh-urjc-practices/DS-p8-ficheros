@@ -1,4 +1,4 @@
-# P4-ImplClases
+# p8-ficheros
 ## Requirements
 
   * Linux
@@ -10,8 +10,8 @@
 
 The code can be compiled with the provided commands.
 ```bash
-git clone https://github.com/clases-julio/p4-implclases-JavierIzqUni.git
-cd p4-implclases-JavierIzqUni
+git clone https://github.com/clases-julio/p8-ficheros-JavierIzqUni.git
+cd p8-ficheros-JavierIzqUni
 ./install
 ```
 
@@ -39,3 +39,4 @@ the program will try to log in with the passed arguments using the command line 
 
 ## Recomendations
 * Use the text mode in order to see with more resolution. Usually press: `Super + F2/F3/F4`
+* You must run the program without being inside the build directory.
