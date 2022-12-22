@@ -18,10 +18,9 @@ std::ostream &operator<< (std::ostream &output, const User &user){
 }
 
 User::User(std::string employeeNumber, std::string NIF, std::string name){
-  this->name = name;
-  User::setEmployeeNumber(employeeNumber);
-  User::setNIF(NIF);
-  this->lastLogTime = "";
+  this->setName(name);
+  this->setEmployeeNumber(employeeNumber);
+  this->setNIF(NIF);
   this->addTimestamp();
   this->adminPermission = false;
 }
@@ -31,34 +30,41 @@ bool User::operator<(const User& user) const {
 }
 
 bool User::operator==(const User& user) const {
-   return NIF.compare(user.NIF) == 0 && employeeNumber.compare(user.employeeNumber) == 0 && name.compare(user.name) == 0;  //assume that you compare the record based on a
+   return NIF == user.NIF && employeeNumber == user.employeeNumber;  //assume that you compare the record based on a
 }
 
-bool User::isSameNIF(std::string NIF){
-  return this->NIF.compare(NIF) == 0;
+void User::setNIF(std::string newNIF){
+  int length = newNIF.size();
+  length = (length < 9 ? length : 8);
+  newNIF.copy (NIF, length);
+  NIF [length] = '\0';
 };
 
-void User::setNIF(std::string NIF){
-  if (NIF.size() == 8){
-    this->NIF =NIF;
-  } else {
-    this->NIF = "00000000";
-  }
+void User::setName(std::string newName){
+  int length = newName.size();
+  length = (length < 21 ? length : 20);
+  newName.copy (name, length);
+  name [length] = '\0'; // null character
+}
+
+void User::setEmployeeNumber(std::string newEmployeeNumber){
+  int length = newEmployeeNumber.size();
+  length = (length < 6 ? length : 5);
+  newEmployeeNumber.copy (employeeNumber, length);
+  employeeNumber [length] = '\0';
 };
 
-bool User::isSameEmployeeNumber(std::string employeeNumber){
-  return this->employeeNumber.compare(employeeNumber) == 0;
+bool User::isSameNIF(std::string compareNIF){
+  return NIF == compareNIF;
 };
 
-void User::setEmployeeNumber(std::string employeeNumber){
-  if (employeeNumber.size() == 5){
-    this->employeeNumber = employeeNumber;
-  } else {
-    this->employeeNumber = "00000";
-  }
+bool User::isSameEmployeeNumber(std::string compareEmployeeNumber){
+  return employeeNumber == compareEmployeeNumber;
 };
 
-std::string User::getName(){
+
+
+std::string User::getName() const{
   return this->name;
 };
 
@@ -66,10 +72,14 @@ void User::addTimestamp(){
   auto date = std::chrono::system_clock::now();
   time_t t = std::chrono::system_clock::to_time_t(date);
 
-  this->lastLogTime = std::ctime(&t);
+  std::string newLastLogTime = std::ctime(&t);
+  int length = newLastLogTime.size();
+  length = (length < 25 ? length : 24);
+  newLastLogTime.copy (lastLogTime, length);
+  lastLogTime [length] = '\0';
 };
 
-std::string User::getTimestamp(){
+std::string User::getTimestamp() const{
   return this->lastLogTime;
 };
 

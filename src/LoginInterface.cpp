@@ -26,8 +26,9 @@ LoginInterface *LoginInterface::Create(const std::string type){
 
 User LoginInterface::checkUser(){
   try {
-    User user = this->dastabase.getUser(this->inputEmployeeNumber,this->inputNIF);
-    return user;
+    User *user = new User();
+    *user = this->dastabase.getUser(this->inputEmployeeNumber,this->inputNIF);
+    return *user;
   } catch (std::exception &e) {
     throw; // exception raised again
   }

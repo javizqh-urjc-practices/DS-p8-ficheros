@@ -9,6 +9,7 @@
  * 
  */
 #include "Admin.h"
+#include <set>
 
 #ifndef DATABASE_H 
 #define	DATABASE_H 
@@ -18,11 +19,6 @@ class Database{
     Database(); /* basic constructor */
     ~Database();
     /**
-     * @brief adds a new user to the database
-     * 
-     */
-    void addUser(User);
-    /**
      * @brief Get the User object in the database, if not throws an exception
      * 
      * @param employeeNumber 
@@ -31,7 +27,7 @@ class Database{
      */
     User getUser(std::string employeeNumber,std::string NIF);
   private:
-    std::vector<User> user;
+    std::set<User> user;
 };
 
 #endif

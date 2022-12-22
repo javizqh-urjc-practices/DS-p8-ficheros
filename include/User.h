@@ -28,28 +28,15 @@ public:
   */
   User(std::string number = "00000",std::string nif = "00000000",std::string name = "default");
   ~User();
-  /**
-  * @brief Check if the user has the input NIF
-  * 
-  * @param NIF 
-  * @return true = is the same NIF
-  * @return false = is not the same NIF
-  */
-  bool isSameNIF(std::string);
-  /**
-  * @brief Check if the user has the input employee number
-  * 
-  * @param employeeNumber 
-  * @return true = is the same employee number
-  * @return false = is not the same employee number
-  */
-  bool isSameEmployeeNumber(std::string);
+  bool isSameNIF(std::string NIF);
+  bool isSameEmployeeNumber(std::string NIF);
   /**
   * @brief Returns the user name
   * 
   * @return std::string User name
   */
-  std::string getName();
+  std::string getName() const;
+  void setName(std::string newName);
   /**
   * @brief Set the timestamp 
   * 
@@ -60,7 +47,7 @@ public:
   * 
   * @return std::string Timestamp
   */
-  std::string getTimestamp();
+  std::string getTimestamp() const;
   /**
   * @brief Returns the user permissions
   * 
@@ -70,13 +57,6 @@ public:
   bool hasAdminPermission();
   bool operator<(const User &) const;
   bool operator==(const User &) const;
-
-protected:
-  std::string name;
-  std::string NIF; /* 8 digits */
-  std::string employeeNumber; /* 5 digits */
-  std::string lastLogTime;
-  bool adminPermission;
 
   /**
   * @brief Set the user NIF
@@ -90,6 +70,13 @@ protected:
   * @param employeeNumber 
   */
   void setEmployeeNumber(std::string);
+protected:
+  char name [21];
+  char NIF [9]; /* 8 digits */
+  char employeeNumber [6]; /* 5 digits */
+  char lastLogTime [25];
+  bool adminPermission;
+
 };
 
 #endif

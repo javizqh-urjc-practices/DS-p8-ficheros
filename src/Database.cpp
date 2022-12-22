@@ -10,14 +10,23 @@
  */
 #include "Database.h"
 #include "NotFoundUserException.h"
+#include <fstream>
+#include <iostream>
 
 Database::Database(){
-  User *user1 = new User("10000","1234567A","paco");
-  User *user2 = new User("20000","1234527J", "juan");
-  Admin *admin1 = new Admin("30000","1234567C", "ELBOSS");
-  addUser(*user1);
-  addUser(*user2);
-  addUser(*admin1);
+  std::ifstream inUsersFile ("data/users.dat", std::ios::in | std::ios::binary);
+  if (!inUsersFile) { // fstream could not open file
+    std::cerr << "File could not be opened." << std::endl;
+    exit (1);
+  }
+  User user;
+  inUsersFile.read (reinterpret_cast <char *>(&user), sizeof (User));
+
+  while (inUsersFile && !inUsersFile.eof()) {
+    this->user.insert(user);
+    inUsersFile.read (reinterpret_cast <char *>(&user), 
+      sizeof (User));
+  }
 }
 
 User Database::getUser(std::string employeeNumber, std::string NIF){
@@ -31,8 +40,20 @@ User Database::getUser(std::string employeeNumber, std::string NIF){
   throw NotFoundUserException();
 }
 
-void Database::addUser(User newUser){
-  user.push_back(newUser);
-}
+Database::~Database(){
+  std::fstream outUsersFile ("data/users.dat", std::ios::in | std::ios::out | std::ios::binary); // ios::in will require an existing file
 
-Database::~Database(){}
+  if (!outUsersFile) { // fstream could not open file
+    std::cerr << "File could not be opened." << std::endl;
+    exit (1);
+  }
+
+  User user;
+  int counter = 0;
+
+  for (auto it = this->user.begin(); it != this->user.end(); it++){
+    outUsersFile.seekp ( counter * sizeof (User));
+    outUsersFile.write (reinterpret_cast <const char *> (&*it), sizeof (User));   
+    counter++;
+  }
+}

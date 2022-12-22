@@ -60,6 +60,7 @@ OBJECTS		:= $(SOURCES:.cpp=.o)
 #
 
 OUTPUTMAIN	:= $(call FIXPATH,build/$(MAIN))
+OUT	:= $(call FIXPATH,src/*.o)
 
 all: $(OUTPUT) $(MAIN)
 	@echo Executing 'all' complete!
@@ -77,6 +78,7 @@ $(MAIN): $(OBJECTS)
 .PHONY: clean
 clean:
 	$(RM) $(OUTPUTMAIN)
+	$(RM) $(OUT)
 	@echo Cleanup complete!
 
 run: all
